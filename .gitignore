@@ -1,1 +1,5 @@
 /nbproject/private/
+/includes/DBConn.php
+/includes/img_config.php
+/includes/encode.php
+/includes/conf.ini.php
