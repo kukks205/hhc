@@ -11,7 +11,7 @@ if (empty($_SESSION['loginname'])) {
 <div data-role="page"  id="mainpage" data-quicklinks="true">
 
 
-    <div data-role="header" data-position="fixed" data-theme="<?= $theme; ?>">
+    <div data-role="header" data-position="fixed" data-fullscreen="true" data-theme="<?= $theme; ?>">
         <?php
         if (empty($_SESSION['loginname'])):
             ?>
@@ -32,7 +32,7 @@ if (empty($_SESSION['loginname'])) {
 
 
 
-    <div role="main" class="ui-content">
+    <div role="main" class="ui-content" style="margin-top: 25px;">
         <?php
         if (!empty($_REQUEST["url"])) {
             require $_REQUEST['url'];

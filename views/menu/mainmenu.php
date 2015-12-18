@@ -1,10 +1,10 @@
         <ul data-role="listview" data-inset="true" data-theme="a">
             <li data-role="list-divider" data-theme="<?=$theme;?>">
                 <h1>:: เมนูหลัก :: ยินดีต้อนรับคุณ <?= $_SESSION['name'] ?></h1>
-                <p>หน่วยบริการ :</p>
+                <p>หน่วยบริการ :<?php echo $getData->GetStringData("select hospitalname as cc from opdconfig"); ?></p>
             </li>
             <li>
-                <a href="index.php?url=pages/onestop/service_home.php">
+                <a href="index.php?url=views/opd/opd_home.php" data-ajax="false">
                     <img src="img/doctor2.png" alt=""/>
                     <h1>ระบบงานบริการเชิงรับ</h1>
                     <p>ระบบงานบริการในหน่วยบริการเช่น OneStopService เป็นต้น</p>

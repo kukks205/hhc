@@ -1,6 +1,7 @@
 <?php 
 ob_start();
 session_start();
+date_default_timezone_set("Asia/Bangkok");
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,6 +17,7 @@ session_start();
         <link href="lib/ionicons/css/ionicons.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery-2.1.3.js"></script>
         <script src="lib/jqm1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        <script src="lib/angular-1.4.5/angular.min.js" type="text/javascript"></script>
         
         <script src="lib/mobiscroll/js/mobiscroll.core.js"></script>
         <script src="lib/mobiscroll/js/mobiscroll.widget.js"></script>
@@ -39,16 +41,14 @@ session_start();
             $.mobile.page.prototype.options.domCache = true;
         </script>
     </head>
-    <body>
+    <body ng-app="myApp">
         <?php
         include 'includes/DBConn.php';
         include 'includes/dbClass.php';
         $getData=new dbClass();
         include 'views/content.php';
- 
-        
         ?> 
-        <script src="lib/angular-1.4.5/angular.min.js" type="text/javascript"></script>
-        <script src="js/prototype.js" type="text/javascript"></script>
+        
+        <!--<script src="js/myApp.js" type="text/javascript"></script>-->
     </body>
 </html>
