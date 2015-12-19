@@ -11,7 +11,7 @@ if (empty($_SESSION['loginname'])) {
 <div data-role="page"  id="mainpage" data-quicklinks="true">
 
 
-    <div data-role="header" data-position="fixed" data-fullscreen="true" data-theme="<?= $theme; ?>">
+    <div data-role="header" data-position="fixed" data-fullscreen="false" data-theme="<?= $theme; ?>">
         <?php
         if (empty($_SESSION['loginname'])):
             ?>
@@ -26,13 +26,10 @@ if (empty($_SESSION['loginname'])) {
         endif;
         ?>
 
-        <h1>:: HHC 4.0 ::</h1>
+        <h1>:: HHC ver 4.0 ::</h1>
         <a href="index.php?url=views/checkout.php"data-iconpos="notext" data-role="button" data-icon="power" title="Logout">Logout</a>
     </div>
-
-
-
-    <div role="main" class="ui-content" style="margin-top: 25px;">
+    
         <?php
         if (!empty($_REQUEST["url"])) {
             require $_REQUEST['url'];
@@ -40,7 +37,7 @@ if (empty($_SESSION['loginname'])) {
             require $url;
         }
         ?>
-
-    </div>
+    
+    
     <?php include 'views/menu/quickmenu.html'; ?>     
 </div>  

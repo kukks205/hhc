@@ -1,4 +1,5 @@
-        <ul data-role="listview" data-inset="true" data-theme="a">
+<div role="main" class="ui-content">
+<ul data-role="listview" data-inset="true" data-theme="a">
             <li data-role="list-divider" data-theme="<?=$theme;?>">
                 <h1>:: เมนูหลัก :: ยินดีต้อนรับคุณ <?= $_SESSION['name'] ?></h1>
                 <p>หน่วยบริการ :<?php echo $getData->GetStringData("select hospitalname as cc from opdconfig"); ?></p>
@@ -48,3 +49,4 @@
                 <p>Copyright © 2014-2015 kukks205. All rights reserved. </p>
             </li>
         </ul>
+</div>

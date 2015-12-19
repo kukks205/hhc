@@ -1,4 +1,5 @@
-        <ul data-role="listview" data-inset="true" data-theme="a">
+<div role="main" class="ui-content">
+<ul data-role="listview" data-inset="true" data-theme="a">
             <li data-role="list-divider" data-theme="<?=$theme;?>">
                 <h1>ระบบงานบริการเชิงรับ</h1>
                 <p>User :</p>
@@ -39,7 +40,8 @@
                 </a>
             </li>             
         </ul>
-
+</div>
+    
     <div data-role="footer" data-position="fixed" data-theme="<?=$theme;?>">
         <div data-role="navbar">
             <ul>
