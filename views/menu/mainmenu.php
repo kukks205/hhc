@@ -11,7 +11,7 @@
                     <p>ระบบงานบริการในหน่วยบริการเช่น OneStopService เป็นต้น</p>
                 </a></li>
             <li>
-                <a href="index.php?url=pages/mainmenu/menu_promo.php" data-ajax="false">
+                <a href="index.php?url=views/menu/menupromo.php" data-ajax="false">
                     <img src="img/home3.png" alt=""/>
                     <h1>ระบบบริการเชิงรุก</h1>
                     <p>ระบบงานบริการส่งเสริม ป้องกัน ฟื้นฟูในกลุ่มเป้าหมายกลุ่มต่างๆ</p>
