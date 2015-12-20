@@ -1,12 +1,12 @@
 <div data-role="content" ng-app="personList" ng-controller="personCtrl" >
     <ul data-role="listview" data-inset="true" data-theme="a" data-filter='true'>
-        <li data-role="list-divider" data-theme="d">
+        <li data-role="list-divider" data-theme="<?= $theme; ?>">
             <h1><?php echo $getData->GetStringData("select village_name as cc from village where village_id='" . $_REQUEST['villcode'] . "'"); ?>  <?php echo $getData->GetStringData("select concat('ม.',v.village_moo,'  ',t.full_name) as cc from thaiaddress as t join village as v on t.addressid = v.address_id where v.village_id=" . $_REQUEST['villcode']); ?></h1>
             <h4>จำนวนหลังคาเรือนทั้งหมด {{person.length}} หหลังคาเรือน</h4>
         </li>
         <li ng-hide="dataload.loaded == true"><div align='center'><i class="icon ion-loading-c" style="font-size: 32px;"></i> กำลังประมวลผล...</div></li>
         <li ng-repeat="p in person">
-            <a href="#">
+            <a href="index.php?url=views/familyfolder/familyfolder.php" data-ajax="false">
                 <img src="includes/house_image_id.php?hid={{p.house_id}}" width="150" align="center"  ng-if="p.img == true"/> 
                 <img src="img/no_image.gif" alt="" width="150" align="center" ng-if="p.img == false"/>
 
@@ -24,7 +24,7 @@
 </div>
 
 
-<div data-role="footer" data-position="fixed" data-theme="d">
+<div data-role="footer" data-position="fixed" data-theme="<?= $theme; ?>">
     <div data-role="navbar">
         <ul>
             <li>
@@ -33,7 +33,9 @@
                 </a>
             </li> 
             <li>
-                <a href="about/about.php" data-icon="user" data-rel="dialog" data-inline="true" >About</a>
+                <a href="#" data-inline="true" data-icon="plus" data-mini="true" data-rel='back' >
+                    เพิ่มหลังคาเรือน
+                </a>
             </li>
         </ul>
     </div>
