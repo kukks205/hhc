@@ -4,7 +4,7 @@ include '../includes/DBConn.php';
 $villcode = $_REQUEST['village_id'];
 
 $obj = $db->query("select 
-h.house_id,h.village_id,h.address,h.road,concat(p.pname,p.fname,'  ',p.lname) as name,hp.house_id,
+h.house_id,h.village_id,h.address,h.road,concat(p.pname,p.fname,'  ',p.lname) as name,
 if(hp.house_id is null,false,true) as img
 from
 house as h
