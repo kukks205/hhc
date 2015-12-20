@@ -57,7 +57,7 @@
     ?>
 
 
-<div ng-controller="visitListCtrl" >
+<div ng-app="myApp"  ng-controller="visitListCtrl" >
         <ul data-role="listview" data-inset="true" data-theme="a" data-filter='true' data-filter-placeholder='ค้นหาผู้รับบริการ..'>
             <li data-role="list-divider" data-theme="<?= $theme; ?>">
                 <h1>

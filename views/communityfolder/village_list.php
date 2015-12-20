@@ -1,8 +1,9 @@
-    <div data-role="content" ng-app="villageList" ng-controller="villageCtrl" >
+<div data-role="content" ng-app="myApp" ng-controller="villageCtrl" >
         <ul data-role="listview" data-inset="true" data-theme="a">
             <li data-role="list-divider" data-theme="<?= $theme; ?>">
                 <h4>หมู่บ้านในเขตรับผิดชอบ</h4>
             </li>
+            <li ng-hide="dataload.loaded == true"><div align='center'><i class="icon ion-loading-c" style="font-size: 32px;"></i> กำลังประมวลผล...</div></li>
 
             <li ng-repeat="v in village">
                 <a href="index.php?url=views/communityfolder/seven_tools.php&villcode={{v.village_id}}" data-ajax='false'>
@@ -32,13 +33,6 @@
         </div>
     </div>
     
-    
-    
-    
-
-    
-
-</div>
 
 <script>
     

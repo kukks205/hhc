@@ -19,7 +19,7 @@
         </a>
         </li> 
         <li>
-        <a href="index.php?url=views/communityfolder/village_list.php" data-ajax='false'>
+        <a href="index.php?url=views/communityfolder/house_list.php&villcode=<?=$_REQUEST['villcode']?>" data-ajax='false'>
             <img src="img/familyfolder.png" alt=""/>
             <h1>แฟ้มครอบครัว</h1>
             <p>Electronic Family Folder</p>
