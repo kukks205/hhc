@@ -1,5 +1,5 @@
 <style>
-    @media ( min-width: 40em ) {
+    @media ( min-width: 50em ) {
         /* Show the table header rows and set all cells to display: table-cell */
         .my-custom-breakpoint td,
         .my-custom-breakpoint th,
@@ -17,86 +17,116 @@
         }
     }
 </style>
-<div role="main" class="ui-content"  >
-    <div data-role="header" data-theme="<?=$theme?>">
-        <h1>E-Family Folder บ้านเลขที่ :<?=$_REQUEST['hid']?></h1>
+<div role="main" class="ui-content"  ng-app="myApp" >
+    <div data-role="header" data-theme="<?= $theme ?>">
+        <h1>E-Family Folder บ้านเลขที่ : <?php echo $getData->GetStringData("select concat(h.address,' ม.',v.village_moo) cc  from house h join village v on (v.village_id=h.village_id) where house_id='" . $_REQUEST['hid'] . "'"); ?></h1>
     </div>
+
+
+
     <div data-role="tabs" id="tabs" data-theme="a">
         <div data-role="header" data-theme="a">
             <div data-role="navbar">
                 <ul>
-                    <li><a href="#on" data-ajax="false">สัญญาณชีพ</a></li>
-                    <li><a href="#one" data-ajax="false">ซักประวัติ</a></li>
-                    <li><a href="#two" data-ajax="false">การวินิจฉัย</a></li>
-                    <li><a href="#three" data-ajax="false">การรักษา</a></li>
+                    <li><a href="#house" data-ajax="false">ทะเบียนบ้าน</a></li>
+                    <li><a href="#one" data-ajax="false">ชื่อสมาชิก</a></li>
+                    <li><a href="#two" data-ajax="false">ข้อมูลสำรวจ</a></li>
+                    <li><a href="#three" data-ajax="false">แผนที่</a></li>
+                    <li><a href="#pic" data-ajax="false">รูปบ้าน</a></li>
                 </ul>
             </div>
         </div>
-        <div id="on">
+        
+        <div id="house" ng-controller="houseCtrl">
+            <ul data-role="listview"  data-theme="a" data-divider-theme="a" data-inset="true" >
+                <li data-role="list-divider" >
+                    <h4>ข้อมูลทะเบียนบ้าน
+                        <a href="#" data-role="button" data-inline="true" data-icon="edit" data-iconpos="notext" data-theme="a" data-mini="true" data-ajax="false">แก้ไข</a>
+                    </h4>
+                </li>
+                <li>     
+                    <div class="ui-grid-a">
+                        <div class="ui-block-a">
+                            <div class="ui-bar" style="height:100%">
+                                <div class="ui-field-contain"> 
+                                    <label for="census_id">เลขทะเบียนบ้าน:{{house.length}}</label>
+                                    <input type="text" data-mini="true" readonly="true" name="census_id" id="census_id" value="{{house.census_id}}">
+                                </div> 
+                                <div class="ui-field-contain">
+                                    <label for="address">บ้านเลขที่:</label>
+                                    <input type="text" data-mini="true" readonly="true"  name="address" id="address" value="{{h.address}}">
+                                </div>
+                                <div class="ui-field-contain">
+                                    <label for="road">ถนน:</label>
+                                    <input type="text" data-mini="true" readonly="true"  name="road" id="road" value="">
+                                </div>
+                                <div class="ui-field-contain">
+                                    <label for="head_person">เจ้าบ้าน:</label>
+                                    <input type="text" data-mini="true" readonly="true"  name="head_person" id="head_person" 
+                                           value="">
+                                </div>
+                                <div class="ui-field-contain">
+                                    <label for="latitude">Latitude:</label>
+                                    <input type="text" data-mini="true" readonly="true" name="house_name" id="house_name" value="">
+                                </div>                
+                            </div>
+                        </div>
+                        <div class="ui-block-b">
+                            <div class="ui-bar" style="height:100%">
+                                <div class="ui-field-contain">
+                                    <label for="house_type">ชนิดของที่อยู่อาศัย:</label>
+                                    <input type="text" data-mini="true" readonly="true" name=house_type" id="house_type" value="">
+                                </div> 
+                                <div class="ui-field-contain">
+                                    <label for="location">Location:</label>
+                                    <input type="text" data-mini="true" readonly="true"  name="location" id="location" value="">
+                                </div>
+                                <div class="ui-field-contain">
+                                    <label for="house_subtype">ลักษณะของที่อยู่:</label>
+                                    <input type="text" data-mini="true" readonly="true" name="house_subtype" id="house_subtype" value="">
+                                </div>
+                                <div class="ui-field-contain">
+                                    <label for="house_name">ชื่อหมู่บ้านจัดสรร:</label>
+                                    <input type="text" data-mini="true" readonly="true" name="house_name" id="house_name" value="">
+                                </div>
+                                <div class="ui-field-contain">
+                                    <label for="longitude">Longitude:</label>
+                                    <input type="text" data-mini="true" readonly="true" name="house_name" id="house_name" value="">
+                                </div>                 
+                            </div>
+                        </div>
+                    </div>
 
 
-            <table data-role="table" id="temp-table" data-mode="reflow" class="ui-responsive table-stroke">
-                <thead>
-                    <tr>
-                        <th data-priority="1">น้ำหนัก</th>
-                        <th data-priority="2">ส่วนสูง</th>
-                        <th data-priority="3">ความดันโลหิต</th>
-                        <th data-priority="4">อุณหภูมิ</th>
-                        <th data-priority="5">Puls</th>
-                        <th data-priority="6">RR.</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><font color="green">60 กก.</font></td>
-                        <td><font color="green">160 cms.</font></td>
-                        <td><font color="green">120/80 mmHg.</font></td>
-                        <td><font color="green">37.00</font></td>
-                        <td><font color="green">80/min.</font></td>
-                        <td><font color="green">14/min.</font></td>
-                    </tr>
-                </tbody>
-            </table>
-
+                </li>
+            </ul>
         </div>
-        <div id="one">
-
-            <table data-role="table" id="temp-table" data-mode="reflow" class="ui-responsive table-stroke">
-                <thead>
-                    <tr>
-                        <th data-priority="1">อาการสำคัญ :</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td valign="top" bgcolor="#E6E6E6">                                        
-                            <font color="#084B8A">
-                            มีน้ำมูก ไข้ ไอ เจ็บคอ  เป็นมา 3 วัน
-                            </font>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
 
 
-            <table data-role="table" id="temp-table" data-mode="reflow" class="ui-responsive table-stroke">
-                <thead>
-                    <tr>
-                        <th data-priority="1">การตรวจร่างกาย :</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td valign="top" bgcolor="#E6E6E6">                                        
-                            <font color="#084B8A">
-                            Pharynx injected, tonsils not enlarged, not injected
-                            <br>Normal breath sound,no adventitious sounds( Crepitation,Rhonchi, Wheezing)
-                            </font>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div id="one" ng-controller="personCtrl">
+            <div ng-hide="dataload.loaded == true">
+                <div align='center'><i class="icon ion-loading-c" style="font-size: 32px;"></i> กำลังประมวลผล...</div>
+            </div>
+            <ul data-role="listview" data-inset="true">
+                <li data-role="list-divider" >
+                    <h4>รายชื่อสมาชิกในครัวเรือน</h4>
+                </li>
+                <li ng-repeat="p in person" data-icon="false">
+                    <a href="#" data-ajax='false'>
+                        <img src="includes/person_image.php?pid={{p.person_id}}" width="100" align="center" ng-if="p.img == 3"/> 
+                        <img src="img/no-image-man.png" alt="" width="100" align="center" ng-if="p.img == 1"/>
+                        <img src="img/no-pic-girl.png" alt="" width="100" align="center" ng-if="p.img == 2"/>
+                        <h4>{{$index + 1}}. ชื่อ : {{p.person_name}}</h4>
+                        <p>CID: {{p.cid}}  </p>
+                        <span class="ui-li-count">{{p.age_y}} ปี</span>
+                    </a>
+                </li> 
+                <li>จำนวนสามาชิก:{{person.length}}</li>
+            </ul>
         </div>
+
+
+
         <div id="two">
                 <h1>การวินิจฉัย</h1>
         </div>
@@ -149,10 +179,15 @@
                 </tbody>
             </table>
         </div>
+        <div id="pic">
+            PIC 
+        </div>
     </div>
 
 
+
 </div>
+
 <div data-role="footer" data-position="fixed" data-theme="<?= $theme; ?>">
     <div data-role="navbar">
         <ul>
@@ -167,3 +202,38 @@
         </ul>
     </div>
 </div>
+<script>
+    var myApp = angular.module('myApp', []);
+    //แสดงรายชื่อผู้รับบริการ
+    myApp.controller('personCtrl', function ($scope, $http) {
+        //กำหนดตัวแปรที่จะแสดงสถานะการ load
+        $scope.dataload = {};
+        var dataloaded = $scope.dataload;
+        //กำหนดตัวแปรที่จะแสดงสถานะการ load ว่ายังไม่เสร็จ
+        dataloaded.loaded = false;
+
+        $http.get("models/m_person_list.php?hid=<?= $_REQUEST['hid'] ?>")
+                .success(function (response) {
+                    $scope.person = response.records;
+                    //กำหนดตัวแปรที่จะแสดงสถานะการ load ว่าเสร็จแล้ว
+                    dataloaded.loaded = true;
+                });
+
+    });
+    
+        myApp.controller('houseCtrl', function ($scope, $http) {
+        //กำหนดตัวแปรที่จะแสดงสถานะการ load
+        $scope.dataload = {};
+        var dataloaded = $scope.dataload;
+        //กำหนดตัวแปรที่จะแสดงสถานะการ load ว่ายังไม่เสร็จ
+        dataloaded.loaded = false;
+
+        $http.get("models/m_house_detail.php?hid=<?= $_REQUEST['hid'] ?>")
+                .success(function (response) {
+                    $scope.house = response.records;
+                    //กำหนดตัวแปรที่จะแสดงสถานะการ load ว่าเสร็จแล้ว
+                    dataloaded.loaded = true;
+                });
+
+    });
+</script>
