@@ -5,7 +5,7 @@
             <h4><?php echo $getData->GetStringData("select concat('ม.',v.village_moo,'  ',t.full_name) as cc from thaiaddress as t join village as v on t.addressid = v.address_id where v.village_id=".$_REQUEST['villcode']); ?></h4>
         </li>
         <li>
-        <a href="index.php?url=views/communityfolder/village_list.php" data-ajax='false'>
+        <a href="index.php?url=views/communityfolder/map_moo.php&villcode=<?=$_REQUEST['villcode']?>" data-ajax='false'>
             <img src="img/map/map2.png" alt=""/>
             <h1>แผนที่ชุมชน</h1>
             <p>แผนที่ชุมชนบน Googlemap</p>

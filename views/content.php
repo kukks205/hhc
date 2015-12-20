@@ -9,8 +9,6 @@ if (empty($_SESSION['loginname'])) {
 ?>
 
 <div data-role="page"  id="mainpage" data-quicklinks="true">
-
-
     <div data-role="header" data-position="fixed" data-fullscreen="false" data-theme="<?= $theme; ?>">
         <?php
         if (empty($_SESSION['loginname'])):

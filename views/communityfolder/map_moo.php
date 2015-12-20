@@ -1,10 +1,11 @@
 <?php
-$sql = "select h.hcode,h.villcode,h.hid,h.hno,h.xgis,h.ygis,v.villno,v.villname from house as h
-join village as v on v.villcode = h.villcode where h.villcode='".$_GET['villcode']."'";
-
-
-$lat = $data->GetStringData("select latitude as cc from village where villcode='" . $_GET['villcode']."'");
-$lon = $data->GetStringData("select longitude as cc from village where villcode='" . $_GET['villcode']."'");
+$sql = "select h.house_id,h.village_id,h.address,h.road,h.latitude,h.longitude,v.village_moo,v.village_name,hi.house_image_id 
+from house as h
+join village as v on v.village_id=h.village_id
+left join house_image as hi on hi.house_id=h.house_id
+where h.latitude and h.longitude is not null and h.village_id='" . $_REQUEST['villcode'] . "'";
+$lat = $getData->GetStringData("select latitude as cc from village where village_id='" . $_REQUEST['villcode'] . "'");
+$lon = $getData->GetStringData("select longitude as cc from village where village_id='" . $_REQUEST['villcode'] . "'");
 $result = $db->query($sql, PDO::FETCH_ASSOC);
 ?>
 <script type="text/javascript" language="javascript">
@@ -12,8 +13,6 @@ $result = $db->query($sql, PDO::FETCH_ASSOC);
         window.location.reload();
     }
 </script> 
-
-
 
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
 
@@ -57,16 +56,17 @@ $result = $db->query($sql, PDO::FETCH_ASSOC);
             var address = [];
             var village_moo = [];
             var village_name = [];
-            //var house_image_id = [];
+            var house_image_id = [];
             // Adding a LatLng object for each city
 <?php
 while ($row = $result->fetch()) {
     ?>
-                places.push(new google.maps.LatLng("<?= $row['ygis'] ?>", "<?= $row['xgis'] ?>"));
-                address.push("<?= $row['hno'] ?>");
-                village_moo.push("<?= $row['villno'] ?>");
-                village_name.push("<?= $row['villname'] ?>");
-                house_id.push("<?= $row['hcode'] ?>");
+                places.push(new google.maps.LatLng("<?= $row['latitude'] ?>", "<?= $row['longitude'] ?>"));
+                address.push("<?= $row['address'] ?>");
+                village_moo.push("<?= $row['village_moo'] ?>");
+                village_name.push("<?= $row['village_name'] ?>");
+                house_id.push("<?= $row['house_id'] ?>");
+                house_image_id.push("<?= $row['house_image_id'] ?>");
 
     <?php
 }
@@ -96,11 +96,10 @@ while ($row = $result->fetch()) {
                     // Creating the event listener. It now has access to the values
                     google.maps.event.addListener(marker, 'click', function () {
 
-                        if (house_id[i]) {
-                            var strImg = '<img src="images/no_image.gif" height="120" align="center" />';
-                        }
-                        else {
-                            var strImg = '<img src="images/no_image.gif" height="120" align="center" />';
+                        if (house_image_id[i]) {
+                            var strImg = '<img src="includes/house_image_id.php?hid='+house_id[i]+'" height="120" align="center" />';
+                        } else {
+                            var strImg = '<img src="img/no_image.png" height="120" align="center" />';
                         }
                         var strInfo = '<div align="center">' +
                                 strImg +
@@ -128,75 +127,65 @@ while ($row = $result->fetch()) {
 <style>
     #map {
         padding: 0px;
-        height: 90%;
+        margin-top: 0px;
+        height: 100%;
         width: 100%;
         position : absolute !important; 
-        top : 40px !important;  
-        right : 0; 
+        top : 0px !important;  
+        right : 0;
         bottom : 0px !important;  
         left : 0 !important;        
     }
 </style>  
 
-
-
-<div id="map">
+<div role="main" class="ui-content" id="map">
     <center>
         <h4>กดปุ่มแสดงแผนที่หากภาพแผนที่ไม่ปรากฏครับ</h4>
         <input type="button" value="แสดงแผนที่" data-inset="false" data-theme="b" data-inline="true" data-mini="true" data-icon="grid" onClick="reloadURL();"/>
     </center>
 </div>
 
-
-
-
-<div data-role="footer" data-position="fixed" data-theme="f">
+<div data-role="footer" data-position="fixed" data-theme="d">
     <div data-role="navbar">
         <ul>
             <li>
-                <a href="index.php?url=<?=$encode->encodeUrl('page/familyfolder/comunity.php')?>&village_id=<?=$_GET['villcode']?>" data-icon="home">
-                    แฟ้มชุมชน</a>
-            </li>
-            <li>
-                <a href="#menu" data-icon="grid" data-rel="dialog" data-inline="true" >เมนูแผนที่</a>
-            </li>
-            <li>
-                <a href="#menu" data-icon="location" data-rel="dialog" data-inline="true" >แผนที่ตำบล</a>
-            </li>
+                <a href="#map_menu" data-inline="true" data-icon="bullets" data-mini="true" >
+                    ตัวเลือกแผนที่
+                </a>
+            </li> 
         </ul>
     </div>
 </div>
 
 
-<style>
-    #menu {
-        padding: 0px;
-        width: 15em;
-        position : absolute !important; 
-        top : 42px !important;  
-        right : 0; 
-        bottom : 0px !important;  
-        left : 0 !important;        
-    }
-</style>
-<div data-role="panel" id="menu" data-display="overlay" data-position="left" data-theme="e" data-position-fixed="true">   
-        <ul data-role="listview" data-inset="false" style="min-width:200px;" data-theme="a">
-        <li data-role="list-divider" data-theme="g" data-rel="close">เลือกประเภทแผนที่</li>
-        <li><a href="# ">แสดงหลังคาเรือน</a></li>
-        <li><a href="index.php?url=<?=$encode->encodeUrl('page/map/map_dmht.php')?>&villcode=<?=$_GET['villcode']?>">ผู้ป่วย DM&HT</a></li>
-        <li><a href="#">Home Ward</a></li>
-    </ul>
+    
+        <div data-role="panel" id="map_menu" data-position="right" data-display="push">
+        <ul data-role="listview" data-inset="false" data-theme="a">
+            <li data-role="list-divider" data-theme="<?=$theme;?>">
+                <h4 align="center">:: เลือกแผนที่ ::</h4>
+            </li>
+            <li  data-icon="false">
+                <a href="index.php">
+                <i class="ion-home" style="font-size: 27px;"></i>  หลังคาเรือนทั้งหมด    
+                </a>
+                
+            </li>
+            <li   data-icon="false">
+                <a href="index.php">
+                <i class="ion-heart" style="font-size: 27px;"></i>  ผู้ป่วยDM/HT
+                </a>
+            </li>
+            <li   data-icon="false">
+                <a href="index.php">
+                <i class="ion-android-social" style="font-size: 27px;"></i>  บ้าน อสม.
+                </a>
+            </li>
+            <li   data-icon="false">
+                <a href="index.php">
+                <i class="ion-bug" style="font-size: 27px;"></i>  เฝ้าระวังโรคติดต่อ
+                </a>
+            </li>             
 
-</div>
-
-
-
-<!--<div data-role="popup" id="popupMenu" data-theme="a">
-    <ul data-role="listview" data-inset="true" style="min-width:200px;" data-theme="a">
-        <li data-role="list-divider" data-theme="g">ประเภทแผนที่</li>
-        <li><a href="# ">แสดงหลังคาเรือน</a></li>
-        <li><a href="# ">ผู้ป่วย DM&HT</a></li>
-        <li><a href="#">Home Ward</a></li>
-    </ul>
-</div>-->
-
+        </ul>
+        <!-- panel content goes here -->
+    </div>
