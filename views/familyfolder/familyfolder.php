@@ -50,24 +50,23 @@
                             <div class="ui-bar" style="height:100%">
                                 <div class="ui-field-contain"> 
                                     <label for="census_id">เลขทะเบียนบ้าน:{{house.length}}</label>
-                                    <input type="text" data-mini="true" readonly="true" name="census_id" id="census_id" value="{{house.census_id}}">
+                                    <input type="text" data-mini="true" readonly="true" name="census_id" id="census_id" value="{{house[0].census_id}}">
                                 </div> 
                                 <div class="ui-field-contain">
                                     <label for="address">บ้านเลขที่:</label>
-                                    <input type="text" data-mini="true" readonly="true"  name="address" id="address" value="{{h.address}}">
+                                    <input type="text" data-mini="true" readonly="true"  name="address" id="address" value="{{house[0].address}}">
                                 </div>
                                 <div class="ui-field-contain">
                                     <label for="road">ถนน:</label>
-                                    <input type="text" data-mini="true" readonly="true"  name="road" id="road" value="">
+                                    <input type="text" data-mini="true" readonly="true"  name="road" id="road" value="{{house[0].road}}">
                                 </div>
                                 <div class="ui-field-contain">
                                     <label for="head_person">เจ้าบ้าน:</label>
-                                    <input type="text" data-mini="true" readonly="true"  name="head_person" id="head_person" 
-                                           value="">
+                                    <input type="text" data-mini="true" readonly="true"  name="head_person" id="head_person" value="{{house[0].head_name}}">
                                 </div>
                                 <div class="ui-field-contain">
                                     <label for="latitude">Latitude:</label>
-                                    <input type="text" data-mini="true" readonly="true" name="house_name" id="house_name" value="">
+                                    <input type="text" data-mini="true" readonly="true" name="latitude" id="latitude" value="{{house[0].latitude}}">
                                 </div>                
                             </div>
                         </div>
@@ -75,23 +74,23 @@
                             <div class="ui-bar" style="height:100%">
                                 <div class="ui-field-contain">
                                     <label for="house_type">ชนิดของที่อยู่อาศัย:</label>
-                                    <input type="text" data-mini="true" readonly="true" name=house_type" id="house_type" value="">
+                                    <input type="text" data-mini="true" readonly="true" name=house_type" id="house_type" value="{{house[0].house_type_name}}">
                                 </div> 
                                 <div class="ui-field-contain">
                                     <label for="location">Location:</label>
-                                    <input type="text" data-mini="true" readonly="true"  name="location" id="location" value="">
+                                    <input type="text" data-mini="true" readonly="true"  name="location" id="location" value="{{house[0].location_area_name}}">
                                 </div>
                                 <div class="ui-field-contain">
                                     <label for="house_subtype">ลักษณะของที่อยู่:</label>
-                                    <input type="text" data-mini="true" readonly="true" name="house_subtype" id="house_subtype" value="">
+                                    <input type="text" data-mini="true" readonly="true" name="house_subtype" id="house_subtype" value="{{house[0].house_subtype_name}}">
                                 </div>
                                 <div class="ui-field-contain">
                                     <label for="house_name">ชื่อหมู่บ้านจัดสรร:</label>
-                                    <input type="text" data-mini="true" readonly="true" name="house_name" id="house_name" value="">
+                                    <input type="text" data-mini="true" readonly="true" name="house_condo_name" id="house_condo_name" value="{{house[0].house_condo_name}}">
                                 </div>
                                 <div class="ui-field-contain">
                                     <label for="longitude">Longitude:</label>
-                                    <input type="text" data-mini="true" readonly="true" name="house_name" id="house_name" value="">
+                                    <input type="text" data-mini="true" readonly="true" name="longitude" id="longitude" value="{{house[0].longitude}}">
                                 </div>                 
                             </div>
                         </div>
