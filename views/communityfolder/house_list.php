@@ -1,4 +1,4 @@
-<div data-role="content" ng-app="personList" ng-controller="personCtrl" >
+<div data-role="content" ng-app="myApp" ng-controller="personCtrl" >
     <ul data-role="listview" data-inset="true" data-theme="a" data-filter='true'>
         <li data-role="list-divider" data-theme="<?= $theme; ?>">
             <h1><?php echo $getData->GetStringData("select village_name as cc from village where village_id='" . $_REQUEST['villcode'] . "'"); ?>  <?php echo $getData->GetStringData("select concat('ม.',v.village_moo,'  ',t.full_name) as cc from thaiaddress as t join village as v on t.addressid = v.address_id where v.village_id=" . $_REQUEST['villcode']); ?></h1>
