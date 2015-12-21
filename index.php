@@ -45,6 +45,8 @@ date_default_timezone_set("Asia/Bangkok");
         <?php
         include 'includes/DBConn.php';
         include 'includes/dbClass.php';
+        include 'includes/dateClass.php';
+        $df = new dateClass();
         $getData=new dbClass();
         include 'views/content.php';
         ?> 

@@ -29,14 +29,14 @@
             <div data-role="navbar">
                 <ul>
                     <li><a href="#house" data-ajax="false">ทะเบียนบ้าน</a></li>
-                    <li><a href="#one" data-ajax="false">ชื่อสมาชิก</a></li>
-                    <li><a href="#two" data-ajax="false">ข้อมูลสำรวจ</a></li>
+                    <li><a href="#personList" data-ajax="false">ชื่อสมาชิก</a></li>
+                    <li><a href="#survey" data-ajax="false">ข้อมูลสำรวจ</a></li>
                     <li><a href="#three" data-ajax="false">แผนที่</a></li>
                     <li><a href="#pic" data-ajax="false">รูปบ้าน</a></li>
                 </ul>
             </div>
         </div>
-        
+
         <div id="house" ng-controller="houseCtrl">
             <ul data-role="listview"  data-theme="a" data-divider-theme="a" data-inset="true" >
                 <li data-role="list-divider" >
@@ -102,7 +102,7 @@
         </div>
 
 
-        <div id="one" ng-controller="personCtrl">
+        <div id="personList" ng-controller="personCtrl">
             <div ng-hide="dataload.loaded == true">
                 <div align='center'><i class="icon ion-loading-c" style="font-size: 32px;"></i> กำลังประมวลผล...</div>
             </div>
@@ -126,8 +126,43 @@
 
 
 
-        <div id="two">
-                <h1>การวินิจฉัย</h1>
+        <div id="survey" ng-controller="surveyCtrl">
+            <ul data-role="listview" data-inset="true" data-mini="true">
+    <li data-role="list-divider">
+            <div>ข้อมูลการสำรวจครัวเรือน
+            <a href="#" data-role="button" data-inline="true" data-icon="edit" data-iconpos="notext" data-theme="a" data-mini="true" data-ajax="false">แก้ไข</a>
+            <a href="#" data-role="button" data-inline="true" data-icon="plus" data-iconpos="notext" data-theme="a" data-mini="true" data-ajax="false">เพิ่ม</a>
+            </div>
+    </li>
+    <li>
+            <div ng-hide="dataload.loaded == true">
+                <div align='center'><i class="icon ion-loading-c" style="font-size: 32px;"></i> กำลังประมวลผล...</div>
+            </div>
+               <table data-role="table" id="temp-table" data-mode="reflow" class="ui-responsive table-stroke" data-filter="true">   
+                <thead>
+                    <tr>
+                    </tr>
+                    <tr>
+                        <th data-priority="1" >ลำดับ</th>
+                        <th data-priority="2" >ข้อมูลการสำรวจ</th>
+                        <th data-priority="3" >ผลการสำรวจ</th>
+                        <th data-priority="4" >วันที่ปรับปรุงข้อมูล</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                        <tr ng-repeat="s in survey">
+                            <th>{{$index + 1}}</th>
+                            <td>{{s.house_survey_item_name}}</td>
+                            <td>{{s.house_item_value_text}}</td>
+                            <td>{{s.s_date}}
+                            </td>
+
+                        </tr>
+                </tbody>
+            </table>
+            </li>
+    </ul>
         </div>
         <div id="three">
             <table data-role="table" id="temp-table" data-mode="reflow" class="ui-responsive table-stroke">
@@ -219,8 +254,8 @@
                 });
 
     });
-    
-        myApp.controller('houseCtrl', function ($scope, $http) {
+
+    myApp.controller('houseCtrl', function ($scope, $http) {
         //กำหนดตัวแปรที่จะแสดงสถานะการ load
         $scope.dataload = {};
         var dataloaded = $scope.dataload;
@@ -235,4 +270,23 @@
                 });
 
     });
+    
+    
+    
+    
+    myApp.controller('surveyCtrl', function ($scope, $http) {
+        //กำหนดตัวแปรที่จะแสดงสถานะการ load
+        $scope.dataload = {};
+        var dataloaded = $scope.dataload;
+        //กำหนดตัวแปรที่จะแสดงสถานะการ load ว่ายังไม่เสร็จ
+        dataloaded.loaded = false;
+
+        $http.get("models/m_house_survey.php?hid=<?= $_REQUEST['hid'] ?>")
+                .success(function (response) {
+                    $scope.survey = response.records;
+                    //กำหนดตัวแปรที่จะแสดงสถานะการ load ว่าเสร็จแล้ว
+                    dataloaded.loaded = true;
+                });
+
+    });    
 </script>
