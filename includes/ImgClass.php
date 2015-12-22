@@ -52,7 +52,7 @@ class ImageDB {
     }
 
     public function HouseImage($hid) {
-        $sql = "select house_image from house_image where house_id= :id order by house_image_id desc";
+        $sql = "select house_image from house_image where house_id= :id order by house_image_id desc limit 1";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(array(":id" => $hid));

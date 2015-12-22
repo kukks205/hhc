@@ -28,9 +28,7 @@
     }
 </style>
 <?php
-$lat = $getData->GetStringData('select latitude as cc from house where house_id=' . $_REQUEST['hid']);
-$lon = $getData->GetStringData('select longitude as cc from house where house_id=' . $_REQUEST['hid']);
-$address = $getData->GetStringData('select address as cc from house where house_id=' . $_REQUEST['hid']);
+$hid = $_REQUEST['hid']
 ?>
 
 <div role="main" class="ui-content"  ng-app="myApp" >
@@ -115,15 +113,16 @@ $address = $getData->GetStringData('select address as cc from house where house_
 
                 </li>
                 <li data-role="list-divider">
-                    <div>แผนที่บ้าน
+                    <div>
+                        แผนที่บ้าน
                         <a href="index.php?m=familyfolder&a=house_directions&house_id=<?= $_REQUEST['house_id'] ?>" data-role="button" data-inline="true" data-icon="navigation" data-iconpos="notext" data-theme="c" data-mini="true">นำทาง</a>
                     </div>
                 </li>
                 <li>
-                        <ng-map  center="{{house[0].latitude}},{{house[0].longitude}}" zoom="16" map-type-id="HYBRID">
-                            <marker position="{{house[0].latitude}},{{house[0].longitude}}" title="แผนที่บ้าน">
-                            </marker>
-                        </ng-map>
+                <ng-map  center="{{house[0].latitude}},{{house[0].longitude}}" zoom="16" map-type-id="HYBRID">
+                    <marker position="{{house[0].latitude}},{{house[0].longitude}}" title="แผนที่บ้าน">
+                    </marker>
+                </ng-map>
                 </li>
             </ul>
         </div>
@@ -196,14 +195,59 @@ $address = $getData->GetStringData('select address as cc from house where house_
 
 
         <div id="pic">
-            PIC 
+
+            <?php
+            $sql = "select house_image_id,house_id,image_number,
+image_description,image_taken_date 
+from  house_image
+where house_id = '$hid' order by house_image_id ";
+             $row=1;
+            
+            $result = $db->query($sql, PDO::FETCH_OBJ);
+            ?>
+            <ul data-role="listview" data-inset="true">
+                <li data-role="list-divider"  >
+                    <h3>รูปบ้าน</h3>
+                </li>
+                <?php
+                foreach ($result as $r) {
+                   
+                    ?>
+
+                    <li>
+                        <a href="#popupPhoto<?= $r->house_image_id ?>" data-rel="popup" data-position-to="window" data-transition="fade">
+                            <img src="includes/house_image_id.php?hid=<?= $r->house_image_id ?>" height="150" align="center" />
+                                    <h3>
+            รูปที่ <?=$row?>
+        </h3>
+        <p>คำอธิบาย : <?=$r->image_description?></p>
+            <p class="ui-li-aside">
+                <strong>
+                    วันที่ : <?=$r->image_taken_date?>
+                </strong>
+            </p>
+                        </a>
+                    </li>
+
+                    <div data-role="popup" id="popupPhoto<?= $r->house_image_id ?>" data-overlay-theme="b" data-theme="a" data-corners="false">
+                        <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                        <img src="includes/house_image_id.php?hid=<?= $r->house_image_id ?>" height="400" align="center" />
+
+                    </div>
+
+                    <?php
+                    $row=$row+1;
+                }
+                ?>
+
+                <li></li>
+            </ul>
+
+
         </div>
 
 
     </div>
-
-
-
 </div>
 
 <div data-role="footer" data-position="fixed" data-theme="<?= $theme; ?>">
@@ -228,7 +272,7 @@ $address = $getData->GetStringData('select address as cc from house where house_
         var dataloaded = $scope.dataload;
         dataloaded.loaded = false;
 
-        $http.get("models/m_person_list.php?hid=<?= $_REQUEST['hid'] ?>")
+        $http.get("models/m_person_list.php?hid=<?= $hid ?>")
                 .success(function (response) {
                     $scope.person = response.records;
                     dataloaded.loaded = true;
@@ -249,6 +293,20 @@ $address = $getData->GetStringData('select address as cc from house where house_
                 });
 
     });
+
+
+    myApp.controller('ImgCtrl', function ($scope, $http) {
+        $scope.dataload = {};
+        var dataloaded = $scope.dataload;
+        dataloaded.loaded = false;
+
+        $http.get("models/m_house_image.php?hid=<?= $hid ?>")
+                .success(function (response) {
+                    $scope.img = response.records;
+                    dataloaded.loaded = true;
+                });
+    });
+
     myApp.controller('surveyCtrl', function ($scope, $http) {
         $scope.dataload = {};
         var dataloaded = $scope.dataload;

@@ -97,7 +97,7 @@ while ($row = $result->fetch()) {
                     google.maps.event.addListener(marker, 'click', function () {
 
                         if (house_image_id[i]) {
-                            var strImg = '<img src="includes/house_image_id.php?hid='+house_id[i]+'" height="120" align="center" />';
+                            var strImg = '<img src="includes/house_image.php?hid='+house_id[i]+'" height="120" align="center" />';
                         } else {
                             var strImg = '<img src="img/no_image.png" height="120" align="center" />';
                         }
