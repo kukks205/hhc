@@ -7,7 +7,7 @@
         <li ng-hide="dataload.loaded == true"><div align='center'><i class="icon ion-loading-c" style="font-size: 32px;"></i> กำลังประมวลผล...</div></li>
         <li ng-repeat="p in person">
             <a href="index.php?url=views/familyfolder/familyfolder.php&hid={{p.house_id}}" data-ajax="false">
-                <img src="includes/house_image_id.php?hid={{p.house_id}}" width="150" align="center"  ng-if="p.img == true"/> 
+                <img src="includes/house_image.php?hid={{p.house_id}}" width="150" align="center"  ng-if="p.img == true"/> 
                 <img src="img/no_image.gif" alt="" width="150" align="center" ng-if="p.img == false"/>
 
                 <h4>บ้านเลขที่ :{{p.address}}</h4>
