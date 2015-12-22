@@ -19,128 +19,35 @@
 </style>
 
 <style type="text/css">
-/* css กำหนดความกว้าง ความสูงของแผนที่ */
-#map_canvas { 
-	width:100%;
-	height:500px;
-	padding:0px;
-	margin:0px;
-}
-</style>
-<script type="text/javascript" language="javascript">
-    function reloadURL() {
-        window.location.reload();
+    /* css กำหนดความกว้าง ความสูงของแผนที่ */
+    #map_canvas { 
+        width:100%;
+        height:500px;
+        padding:0px;
+        margin:0px;
     }
-</script> 
+</style>
 <?php
 $lat = $getData->GetStringData('select latitude as cc from house where house_id=' . $_REQUEST['hid']);
 $lon = $getData->GetStringData('select longitude as cc from house where house_id=' . $_REQUEST['hid']);
 $address = $getData->GetStringData('select address as cc from house where house_id=' . $_REQUEST['hid']);
 ?>
- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
-<script type="text/javascript">
-    
-    $(document).on("pageinit",function(){
-  initialize();
- 
-});
 
-  
-    var map; // กำหนดตัวแปร map ไว้ด้านนอกฟังก์ชัน เพื่อให้สามารถเรียกใช้งาน จากส่วนอื่นได้
-    var GGM; // กำหนดตัวแปร GGM ไว้เก็บ google.maps Object จะได้เรียกใช้งานได้ง่ายขึ้น
-    var geocoder; // กำหนดตัวแปร สำหรับใช้งานข้อมูลสถานที่จาก Google Map
-
-    
-    function initialize() { // ฟังก์ชันแสดงแผนที่
-	GGM=new Object(google.maps); // เก็บตัวแปร google.maps Object ไว้ในตัวแปร GGM
-       
-        // กำหนดจุดเริ่มต้นของแผนที่
-	var my_Latlng  = new GGM.LatLng(<?=$lat ?>,<?=$lon ?>);
-	
-	// เรียกใช้งานข้อมูล Geocoder ของ Google Map
-	geocoder = new GGM.Geocoder();
-        
-        
-	// กำหนดรูปแบบแผนที่ที่แสดงgoogle.maps.MapTypeId.SATELLITE
-	var my_mapTypeId=GGM.MapTypeId.HYBRID; 
-	
-        // กำหนด DOM object ที่จะเอาแผนที่ไปแสดง ที่นี้คือ div id=map_canvas
-	var my_DivObj=$("#map_canvas")[0]; 
-	
-    
-        // กำหนด Option ของแผนที่
-	var myOptions = {
-		zoom: 16, // กำหนดขนาดการ zoom
-		center: my_Latlng , // กำหนดจุดกึ่งกลาง
-		mapTypeId:my_mapTypeId // กำหนดรูปแบบแผนที่
-	};
-        
-        
-        
-        // สร้างแผนที่และเก็บตัวแปรไว้ในชื่อ map
-	map = new GGM.Map(my_DivObj,myOptions);
-        
-        
-	// สร้างตัว marker
-	var my_Marker = new GGM.Marker({
-		position: my_Latlng,  // กำหนดไว้ที่เดียวกับจุดกึ่งกลาง
-		map: map, // กำหนดว่า marker นี้ใช้กับแผนที่ชื่อ instance ว่า map
-		draggable:true, // กำหนดให้สามารถลากตัว marker นี้ได้
-		title:"คลิกลากเพื่อหาตำแหน่งจุดที่ต้องการ!" // แสดง title เมื่อเอาเมาส์มาอยู่เหนือ
-	});
-        
-        
-        
-	
-	// กำหนด event ให้กับตัว marker เมื่อสิ้นสุดการลากตัว marker ให้ทำงานอะไร
-	GGM.event.addListener(my_Marker, 'dragend', function() {
-		var my_Point = my_Marker.getPosition();  // หาตำแหน่งของตัว marker เมื่อกดลากแล้วปล่อย
-        map.panTo(my_Point);  // ให้แผนที่แสดงไปที่ตัว marker		
-		
-        // เรียกขอข้อมูลสถานที่จาก Google Map
-        geocoder.geocode({'latLng': my_Point}, function(results, status) {
-		  if (status == GGM.GeocoderStatus.OK) {
-			if (results[1]) {
-				// แสดงข้อมูลสถานที่ใน textarea ที่มี id เท่ากับ place_value
-			  $("#place_value").val(results[1].formatted_address); // 
-			}
-		  } else {
-			  // กรณีไม่มีข้อมูล
-			alert("Geocoder failed due to: " + status);
-		  }
-		});		
-	});		
-
-	// กำหนด event ให้กับตัวแผนที่ เมื่อมีการเปลี่ยนแปลงการ zoom
-	GGM.event.addListener(map, 'zoom_changed', function() {
-		$("#zoom_value").val(map.getZoom()); // เอาขนาด zoom ของแผนที่แสดงใน textbox id=zoom_value 	
-	});
-
-}
-  
-$(function(){
-
-	$("<script/>", {
-	  "type": "text/javascript",
-	  src: "http://maps.google.com/maps/api/js?v=3.2&sensor=false&language=th&callback=initialize"
-	}).appendTo("body");	
-});
-</script>  
 <div role="main" class="ui-content"  ng-app="myApp" >
     <div data-role="header" data-theme="<?= $theme ?>">
         <h1>E-Family Folder บ้านเลขที่ : <?php echo $getData->GetStringData("select concat(h.address,' ม.',v.village_moo) cc  from house h join village v on (v.village_id=h.village_id) where house_id='" . $_REQUEST['hid'] . "'"); ?></h1>
     </div>
 
-<?php $villcode=$getData->GetStringData("select v.village_id cc  from house h join village v on (v.village_id=h.village_id) where house_id='" . $_REQUEST['hid'] . "'"); ?>
+    <?php $villcode = $getData->GetStringData("select v.village_id cc  from house h join village v on (v.village_id=h.village_id) where house_id='" . $_REQUEST['hid'] . "'"); ?>
 
     <div data-role="tabs" id="tabs" data-theme="a">
         <div data-role="header" data-theme="a">
             <div data-role="navbar">
                 <ul>
+
                     <li><a href="#house" data-ajax="false">ทะเบียนบ้าน</a></li>
                     <li><a href="#personList" data-ajax="false">ชื่อสมาชิก</a></li>
                     <li><a href="#survey" data-ajax="false">ข้อมูลสำรวจ</a></li>
-                    <li><a href="#map" data-ajax="false">แผนที่บ้าน</a></li>
                     <li><a href="#pic" data-ajax="false">รูปบ้าน</a></li>
                 </ul>
             </div>
@@ -206,6 +113,17 @@ $(function(){
                     </div>
 
 
+                </li>
+                <li data-role="list-divider">
+                    <div>แผนที่บ้าน
+                        <a href="index.php?m=familyfolder&a=house_directions&house_id=<?= $_REQUEST['house_id'] ?>" data-role="button" data-inline="true" data-icon="navigation" data-iconpos="notext" data-theme="c" data-mini="true">นำทาง</a>
+                    </div>
+                </li>
+                <li>
+                <ng-map center="{{house[0].latitude}},{{house[0].longitude}}" zoom="16" map-type-id="HYBRID">
+                    <marker position="{{house[0].latitude}},{{house[0].longitude}}" title="แผนที่บ้าน">
+                    </marker>
+                </ng-map>  
                 </li>
             </ul>
         </div>
@@ -274,27 +192,14 @@ $(function(){
             </ul>
         </div>
 
-<div id="map">
-<ul data-role="listview"  data-theme="a" data-filter="false" data-inset="true" >
-    <li data-role="list-divider">
-        <div>แผนที่บ้าน
-            <a href="index.php?m=familyfolder&a=house_directions&house_id=<?=$_REQUEST['house_id']?>" data-role="button" data-inline="true" data-icon="navigation" data-iconpos="notext" data-theme="c" data-mini="true">นำทาง</a>
-            <a href="#" onclick="reloadURL()" data-role="button" data-inline="true" data-icon="refresh" data-iconpos="notext" data-theme="c" data-mini="true">reload</a>
-        </div>
-
-    </li>
-    <li>
-        <div id="map_canvas" onLoad="initialize()"></div>
-    </li>
-</ul>  
-</div>
-
 
 
 
         <div id="pic">
             PIC 
         </div>
+        
+        
     </div>
 
 
@@ -316,19 +221,16 @@ $(function(){
     </div>
 </div>
 <script>
-    var myApp = angular.module('myApp', []);
+    var myApp = angular.module('myApp', ['ngMap']);
     //แสดงรายชื่อผู้รับบริการ
     myApp.controller('personCtrl', function ($scope, $http) {
-        //กำหนดตัวแปรที่จะแสดงสถานะการ load
         $scope.dataload = {};
         var dataloaded = $scope.dataload;
-        //กำหนดตัวแปรที่จะแสดงสถานะการ load ว่ายังไม่เสร็จ
         dataloaded.loaded = false;
 
         $http.get("models/m_person_list.php?hid=<?= $_REQUEST['hid'] ?>")
                 .success(function (response) {
                     $scope.person = response.records;
-                    //กำหนดตัวแปรที่จะแสดงสถานะการ load ว่าเสร็จแล้ว
                     dataloaded.loaded = true;
                 });
     });
@@ -348,20 +250,16 @@ $(function(){
 
     });
     myApp.controller('surveyCtrl', function ($scope, $http) {
-        //กำหนดตัวแปรที่จะแสดงสถานะการ load
         $scope.dataload = {};
         var dataloaded = $scope.dataload;
-        //กำหนดตัวแปรที่จะแสดงสถานะการ load ว่ายังไม่เสร็จ
         dataloaded.loaded = false;
 
         $http.get("models/m_house_survey.php?hid=<?= $_REQUEST['hid'] ?>")
                 .success(function (response) {
                     $scope.survey = response.records;
-                    //กำหนดตัวแปรที่จะแสดงสถานะการ load ว่าเสร็จแล้ว
                     dataloaded.loaded = true;
                 });
-
     });
-   
+
 </script>
 

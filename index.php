@@ -18,6 +18,8 @@ date_default_timezone_set("Asia/Bangkok");
         <script src="js/jquery-2.1.3.js"></script>
         <script src="lib/jqm1.4.5/jquery.mobile-1.4.5.min.js"></script>
         <script src="lib/angular-1.4.5/angular.min.js" type="text/javascript"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+        <script src="lib/angular-1.4.5/ng-map.min.js" type="text/javascript"></script>
 
 
 
