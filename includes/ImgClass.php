@@ -75,7 +75,7 @@ class ImageDB {
         return array("pic" => $pic);
     }
 
-    public function UploadPic($pid, $file) {
+    public function addPersonPic($pid, $file) {
         
         $sqlhn="select patient_hn as cc from person where person_id='$pid'";
         $row = 0;

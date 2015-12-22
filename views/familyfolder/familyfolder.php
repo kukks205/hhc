@@ -196,16 +196,18 @@ where house_id = '$hid' order by house_image_id ";
 
             $result = $db->query($sql, PDO::FETCH_OBJ);
             ?>
-            <ul data-role="listview" data-inset="true">
+            <ul data-role="listview" data-split-icon="edit" data-split-theme="a" data-inset="true">
                 <li data-role="list-divider"  >
-                    <h3>รูปบ้าน</h3>
+                    <h3>รูปบ้าน
+                    <a href="#" data-role="button" data-inline="true" data-icon="plus" data-iconpos="notext" data-theme="a" data-mini="true" data-ajax="false">แก้ไข</a>
+                    </h3>
                 </li>
                 <?php
                 foreach ($result as $r) {
                     ?>
 
                     <li>
-                        <a href="#popupPhoto<?= $r->house_image_id ?>" data-rel="popup" data-position-to="window" data-transition="fade">
+                        <a href="#popupPhoto<?= $r->house_image_id ?>" data-rel="popup" data-position-to="window" data-transition="pop">
                             <img src="includes/house_image_id.php?hid=<?= $r->house_image_id ?>" height="150" align="center" />
                             <h3>
                                 รูปที่ <?= $row ?>
@@ -217,6 +219,7 @@ where house_id = '$hid' order by house_image_id ";
                                 </strong>
                             </p>
                         </a>
+                        <a href="index.php?url=views/familyfolder/edit_house_img.php&hiid=<?=$r->house_image_id ?>&hid=<?=$r->house_id ?>" data-ajax="false">แก้ไขภาพ</a>
                     </li>
 
                     <div data-role="popup" id="popupPhoto<?= $r->house_image_id ?>" data-overlay-theme="b" data-theme="a" class="ui-corner-all" style="max-width:500px; height: 100%;">
