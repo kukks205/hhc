@@ -75,7 +75,7 @@ class ImageDB {
         return array("pic" => $pic);
     }
 
-    public function addPersonPic($pid, $file) {
+    public function addPerPic($pid, $file) {
         
         $sqlhn="select patient_hn as cc from person where person_id='$pid'";
         $row = 0;
@@ -109,7 +109,7 @@ class ImageDB {
 
         if ($status == 'OK'):
             //start resize
-            $width = 200;
+            $width = 400;
             $size = GetimageSize($source);
             $height = round($width * $size[1] / $size[0]);
 
@@ -156,6 +156,85 @@ class ImageDB {
         endif;
     }
 
+    public function houseImgUpload($hiid, $file) {
+        
+        /*$sqlhn="select patient_hn as cc from person where person_id='$pid'";
+        $row = 0;
+        $result = $this->conn->query($sqlhn, PDO::FETCH_OBJ);
+        foreach ($result as $val) {
+            if ($row > 0)
+                break;
+            else
+                $hn = $val->cc;
+            $row = $row + 1;
+        }*/
+
+        $filename = $file['name'];
+        $type = $file['type'];
+        $source = $file['tmp_name'];
+        $typename = explode("/", $type);
+        $accepted_types = array('jpeg', 'png', 'gif', 'jpg');
+        $temp_path = 'img_temp';
+        if (is_dir($temp_path)):
+            chmod($temp_path, 0777);
+        else:
+            mkdir($temp_path, 0777);
+        endif;
+
+        foreach ($accepted_types as $mime_type) {
+            if ($mime_type == $typename[1]):
+                $status = 'OK';
+                break;
+            endif;
+        }
+
+        if ($status == 'OK'):
+            //start resize
+            $width = 400;
+            $size = GetimageSize($source);
+            $height = round($width * $size[1] / $size[0]);
+
+            switch ($typename[1]) {
+                case 'jpg':
+                    $image = imagecreatefromjpeg($source);
+                    break;
+                case 'jpeg':
+                    $image = imagecreatefromjpeg($source);
+                    break;
+                case 'png':
+                    $image = imagecreatefrompng($source);
+                    break;
+                case 'gif':
+                    $image = imagecreatefromgif($source);
+                    break;
+                default:
+                    $image = imagecreatefromjpeg($source);
+            }
+            $x = imagesx($image);
+            $y = imagesy($image);
+            $imgfin = ImageCreateTrueColor($width, $height);
+            ImageCopyResampled($imgfin, $image, 0, 0, 0, 0, $width + 1, $height + 1, $x, $y);
+            ImageJPEG($imgfin, "img_temp/" . $hiid . '_' . $filename);
+            //end resize
+            //start read image
+            $img_temp = "img_temp/" . $hiid . '_' . $filename; //
+            $of = fopen($img_temp, 'r');
+            $rb = fread($of, filesize($img_temp));
+            fclose($of);
+            $img = addslashes($rb);
+            //end read image
+            $sql = "replace into person_image(person_id,person_image,capture_datetime) values('$pid','$img',DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')) ";
+            $upload = $this->conn->prepare($sql);
+            $upload->execute();
+            $upload = $this->conn->prepare($sqlpatient);
+            $upload->execute();
+            unlink($img_temp);
+            return 'OK';
+        else:
+            return 'NOT';
+        endif;
+    }    
+    
 }
 
 ?>
