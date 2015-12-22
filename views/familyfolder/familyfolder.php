@@ -120,10 +120,10 @@ $address = $getData->GetStringData('select address as cc from house where house_
                     </div>
                 </li>
                 <li>
-                <ng-map center="{{house[0].latitude}},{{house[0].longitude}}" zoom="16" map-type-id="HYBRID">
-                    <marker position="{{house[0].latitude}},{{house[0].longitude}}" title="แผนที่บ้าน">
-                    </marker>
-                </ng-map>  
+                        <ng-map  center="{{house[0].latitude}},{{house[0].longitude}}" zoom="16" map-type-id="HYBRID">
+                            <marker position="{{house[0].latitude}},{{house[0].longitude}}" title="แผนที่บ้าน">
+                            </marker>
+                        </ng-map>
                 </li>
             </ul>
         </div>
@@ -198,8 +198,8 @@ $address = $getData->GetStringData('select address as cc from house where house_
         <div id="pic">
             PIC 
         </div>
-        
-        
+
+
     </div>
 
 
