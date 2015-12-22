@@ -17,21 +17,12 @@
         }
     }
 </style>
-
-<style type="text/css">
-    /* css กำหนดความกว้าง ความสูงของแผนที่ */
-    #map_canvas { 
-        width:100%;
-        height:500px;
-        padding:0px;
-        margin:0px;
-    }
-</style>
 <?php
 $hid = $_REQUEST['hid']
 ?>
 
-<div role="main" class="ui-content"  ng-app="myApp" >
+<div data-role="content"  ng-app="myApp" >
+    
     <div data-role="header" data-theme="<?= $theme ?>">
         <h1>E-Family Folder บ้านเลขที่ : <?php echo $getData->GetStringData("select concat(h.address,' ม.',v.village_moo) cc  from house h join village v on (v.village_id=h.village_id) where house_id='" . $_REQUEST['hid'] . "'"); ?></h1>
     </div>
@@ -201,8 +192,8 @@ $hid = $_REQUEST['hid']
 image_description,image_taken_date 
 from  house_image
 where house_id = '$hid' order by house_image_id ";
-             $row=1;
-            
+            $row = 1;
+
             $result = $db->query($sql, PDO::FETCH_OBJ);
             ?>
             <ul data-role="listview" data-inset="true">
@@ -211,36 +202,37 @@ where house_id = '$hid' order by house_image_id ";
                 </li>
                 <?php
                 foreach ($result as $r) {
-                   
                     ?>
 
                     <li>
                         <a href="#popupPhoto<?= $r->house_image_id ?>" data-rel="popup" data-position-to="window" data-transition="fade">
                             <img src="includes/house_image_id.php?hid=<?= $r->house_image_id ?>" height="150" align="center" />
-                                    <h3>
-            รูปที่ <?=$row?>
-        </h3>
-        <p>คำอธิบาย : <?=$r->image_description?></p>
-            <p class="ui-li-aside">
-                <strong>
-                    วันที่ : <?=$r->image_taken_date?>
-                </strong>
-            </p>
+                            <h3>
+                                รูปที่ <?= $row ?>
+                            </h3>
+                            <p>คำอธิบาย : <?= $r->image_description ?></p>
+                            <p class="ui-li-aside">
+                                <strong>
+                                    วันที่ : <?= $r->image_taken_date ?>
+                                </strong>
+                            </p>
                         </a>
                     </li>
 
-                    <div data-role="popup" id="popupPhoto<?= $r->house_image_id ?>" data-overlay-theme="b" data-theme="a" data-corners="false">
+                    <div data-role="popup" id="popupPhoto<?= $r->house_image_id ?>" data-overlay-theme="b" data-theme="a" class="ui-corner-all" style="max-width:500px; height: 100%;">
                         <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                        <img src="includes/house_image_id.php?hid=<?= $r->house_image_id ?>" height="400" align="center" />
-
+                            <img src="includes/house_image_id.php?hid=<?= $r->house_image_id ?>" style="width: 100%;" align="center" />
                     </div>
 
+
                     <?php
-                    $row=$row+1;
+                    $row = $row + 1;
                 }
                 ?>
 
-                <li></li>
+                    <li>
+                        
+                    </li>
             </ul>
 
 
@@ -250,20 +242,23 @@ where house_id = '$hid' order by house_image_id ";
     </div>
 </div>
 
-<div data-role="footer" data-position="fixed" data-theme="<?= $theme; ?>">
-    <div data-role="navbar">
-        <ul>
-            <li>
-                <a href="#" data-ajax="false" data-inline="true" data-icon="back" data-mini="true" >
-                    back
-                </a>
-            </li> 
-            <li>
-                <a href="about/about.php" data-icon="user" data-rel="dialog" data-inline="true" >About</a>
-            </li>
-        </ul>
+    <div data-role="footer" data-position="fixed" data-theme='d'>
+        <div data-role="navbar">
+            <ul>
+                <li>
+                    <a href="#" data-inline="true" data-icon="back" data-mini="true" data-rel='back' >
+                        Back
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php" data-inline="true" data-icon="plus" data-mini="true" >
+                        เพิ่มหมู่บ้าน
+                    </a>
+                </li> 
+            </ul>
+        </div>
     </div>
-</div>
+
 <script>
     var myApp = angular.module('myApp', ['ngMap']);
     //แสดงรายชื่อผู้รับบริการ
