@@ -197,7 +197,7 @@ where house_id = '$hid' order by house_image_id ";
             <ul data-role="listview" data-split-icon="edit" data-split-theme="a" data-inset="true">
                 <li data-role="list-divider"  >
                     <h3>รูปบ้าน
-                    <a href="#" data-role="button" data-inline="true" data-icon="plus" data-iconpos="notext" data-theme="a" data-mini="true" data-ajax="false">แก้ไข</a>
+                    <a href="index.php?url=views/familyfolder/add_house_img.php&hid=<?=$_REQUEST['hid'] ?>" data-role="button" data-inline="true" data-icon="plus" data-iconpos="notext" data-theme="a" data-mini="true" data-ajax="false">แก้ไข</a>
                     </h3>
                 </li>
                 <?php

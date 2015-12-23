@@ -1,14 +1,4 @@
 <?php
-
-/*
- * Description of ImgClass
- *
- * @author kukks205@gmail.com
- * Class สำหรับแสดงข้อมูลรูปภาพ ใน HHC Online สามารถแยกดึงรูปภาพจาก image server ได้
- * 
- *  
- */
-
 class ImageDB {
 
     var $conn = null;
@@ -20,7 +10,8 @@ class ImageDB {
 
         $connectionString = sprintf("mysql:host=$hostname;dbname=$dbname;charset=utf8");
         try {
-            $this->conn = new PDO($connectionString, $username, $password);
+            $this->conn = new PDO("mysql:host=$hostname;port=$port;dbname=$dbname;", $username, $password, array(
+        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES $charset",));
         } catch (PDOException $pe) {
             die($pe->getMessage());
         }
@@ -156,7 +147,7 @@ class ImageDB {
         endif;
     }
 
-    public function houseImgUpload($hiid,$file,$text) {
+    public function houseImgUpload($hid,$file,$text,$number) {
 
 
         $filename = $file['name'];
@@ -164,6 +155,7 @@ class ImageDB {
         $source = $file['tmp_name'];
         $typename = explode("/", $type);
         $accepted_types = array('jpeg', 'png', 'gif', 'jpg');
+        
         $temp_path = 'img_temp';
         if (is_dir($temp_path)):
             chmod($temp_path, 0777);
@@ -180,7 +172,7 @@ class ImageDB {
 
         if ($status == 'OK'):
             //start resize
-            $width = 400;
+            $width = 600;
             $size = GetimageSize($source);
             $height = round($width * $size[1] / $size[0]);
 
@@ -204,24 +196,22 @@ class ImageDB {
             $y = imagesy($image);
             $imgfin = ImageCreateTrueColor($width, $height);
             ImageCopyResampled($imgfin, $image, 0, 0, 0, 0, $width + 1, $height + 1, $x, $y);
-            ImageJPEG($imgfin, "img_temp/" . $hiid . '_' . $filename);
+            ImageJPEG($imgfin, "img_temp/" . $hid . '_' . $filename);
             //end resize
             //start read image
-            $img_temp = "img_temp/" . $hiid . '_' . $filename; //
+            $img_temp = "img_temp/" . $hid . '_' . $filename; //
             $of = fopen($img_temp, 'r');
             $rb = fread($of, filesize($img_temp));
             fclose($of);
             $img = addslashes($rb);
             //end read image
-            $sql = "replace into house_image(house_image_id,house_id,house_image,image_description,image_taken_date) values('$hiid','$hid','$img','$text',DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s'))";
+            $sql = "replace into house_image(house_image_id,house_id,house_image,image_description,image_number,image_taken_date) values(get_serialnumber('house_image_id'),'$hid','$img','$text',$number,DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s'))";
             $upload = $this->conn->prepare($sql);
-            $upload->execute();
-            $upload = $this->conn->prepare($sqlpatient);
             $upload->execute();
             unlink($img_temp);
             return 'OK';
         else:
-            return 'NOT';
+            return $typename;
         endif;
     }    
     
