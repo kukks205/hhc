@@ -156,18 +156,8 @@ class ImageDB {
         endif;
     }
 
-    public function houseImgUpload($hiid, $file) {
-        
-        /*$sqlhn="select patient_hn as cc from person where person_id='$pid'";
-        $row = 0;
-        $result = $this->conn->query($sqlhn, PDO::FETCH_OBJ);
-        foreach ($result as $val) {
-            if ($row > 0)
-                break;
-            else
-                $hn = $val->cc;
-            $row = $row + 1;
-        }*/
+    public function houseImgUpload($hiid,$file,$text) {
+
 
         $filename = $file['name'];
         $type = $file['type'];
@@ -223,7 +213,7 @@ class ImageDB {
             fclose($of);
             $img = addslashes($rb);
             //end read image
-            $sql = "replace into person_image(person_id,person_image,capture_datetime) values('$pid','$img',DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')) ";
+            $sql = "replace into house_image(house_image_id,house_id,house_image,image_description,image_taken_date) values('$hiid','$hid','$img','$text',DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s'))";
             $upload = $this->conn->prepare($sql);
             $upload->execute();
             $upload = $this->conn->prepare($sqlpatient);

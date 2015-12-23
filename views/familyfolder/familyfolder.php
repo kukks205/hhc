@@ -158,8 +158,6 @@ $hid = $_REQUEST['hid']
                        <table data-role="table" id="temp-table" data-mode="reflow" class="ui-responsive table-stroke" data-filter="true">   
                         <thead>
                             <tr>
-                            </tr>
-                            <tr>
                                 <th data-priority="1" >ลำดับ</th>
                                 <th data-priority="2" >ข้อมูลการสำรวจ</th>
                                 <th data-priority="3" >ผลการสำรวจ</th>
@@ -210,7 +208,7 @@ where house_id = '$hid' order by house_image_id ";
                         <a href="#popupPhoto<?= $r->house_image_id ?>" data-rel="popup" data-position-to="window" data-transition="pop">
                             <img src="includes/house_image_id.php?hid=<?= $r->house_image_id ?>" height="150" align="center" />
                             <h3>
-                                รูปที่ <?= $row ?>
+                                รูปที่ <?=$r->image_number?>
                             </h3>
                             <p>คำอธิบาย : <?= $r->image_description ?></p>
                             <p class="ui-li-aside">
@@ -224,7 +222,7 @@ where house_id = '$hid' order by house_image_id ";
 
                     <div data-role="popup" id="popupPhoto<?= $r->house_image_id ?>" data-overlay-theme="b" data-theme="a" class="ui-corner-all" style="max-width:500px; height: 100%;">
                         <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                            <img src="includes/house_image_id.php?hid=<?= $r->house_image_id ?>" style="width: 100%;" align="center" />
+                            <img src="includes/house_image_id.php?hid=<?=$r->house_image_id ?>" style="width: 100%;" align="center" />
                     </div>
 
 
