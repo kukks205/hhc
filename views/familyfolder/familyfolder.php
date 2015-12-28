@@ -18,13 +18,15 @@
     }
 </style>
 <?php
-$hid = $_REQUEST['hid']
+$hid = $_REQUEST['hid'];
+$villcode = $getData->GetStringData("select h.village_id cc  from house h join village v on (v.village_id=h.village_id) where house_id='$hid' limit 1");         
 ?>
 
 <div data-role="content"  ng-app="myApp" >
     
     <div data-role="header" data-theme="<?= $theme ?>">
         <h1>E-Family Folder บ้านเลขที่ : <?php echo $getData->GetStringData("select concat(h.address,' ม.',v.village_moo) cc  from house h join village v on (v.village_id=h.village_id) where house_id='" . $_REQUEST['hid'] . "'"); ?></h1>
+        
     </div>
 
     <?php $villcode = $getData->GetStringData("select v.village_id cc  from house h join village v on (v.village_id=h.village_id) where house_id='" . $_REQUEST['hid'] . "'"); ?>
@@ -186,10 +188,9 @@ $hid = $_REQUEST['hid']
         <div id="pic">
 
             <?php
-            $sql = "select house_image_id,house_id,image_number,
-image_description,image_taken_date 
-from  house_image
-where house_id = '$hid' order by house_image_id ";
+            $sql = "select house_image_id,house_id,image_number,image_description,image_taken_date 
+                    from  house_image
+                    where house_id = '$hid' order by house_image_id ";
             $row = 1;
 
             $result = $db->query($sql, PDO::FETCH_OBJ);
@@ -247,8 +248,8 @@ where house_id = '$hid' order by house_image_id ";
         <div data-role="navbar">
             <ul>
                 <li>
-                    <a href="#" data-inline="true" data-icon="back" data-mini="true" data-rel='back' >
-                        Back
+                    <a href="index.php?url=views/communityfolder/house_list.php&villcode=<?=$villcode?>" data-ajax="false" data-inline="true" data-icon="back" data-mini="true" >
+                        house list
                     </a>
                 </li>
                 <li>
