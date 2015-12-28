@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="ui-field-contain">
                                     <label for="house_subtype"></label>
-                                    <a href="#" data-role="button" type="submit" name="submit" data-inline="false" data-theme="j" data-mini="true" onclick="fncSubmit()" >ลบรูป</a>
+                                    <a href="index.php?url=models/m_delete_house_img.php&hid=<?=$_REQUEST['hid']?>&hiid=<?=$_REQUEST['hiid']?>" data-role="button"  name="delete" data-inline="false" data-theme="j" data-mini="true" >ลบรูป</a>
                                 </div>
                             </td>
 

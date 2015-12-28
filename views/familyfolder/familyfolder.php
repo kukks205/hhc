@@ -260,7 +260,7 @@ where house_id = '$hid' order by house_image_id ";
         </div>
     </div>
 
-<script>
+<script> 
     var myApp = angular.module('myApp', ['ngMap']);
     //แสดงรายชื่อผู้รับบริการ
     myApp.controller('personCtrl', function ($scope, $http) {
